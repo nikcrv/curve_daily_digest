@@ -196,9 +196,9 @@ th {
 
 .curve-table tr td:nth-child(2),
 .curve-table tr th:nth-child(2) {
-    width: 390px !important;
-    max-width: 390px !important;
-    min-width: 390px !important;
+    width: 340px !important;
+    max-width: 340px !important;
+    min-width: 340px !important;
 }
 
 .curve-table tr td:nth-child(3),
@@ -237,6 +237,13 @@ a {
 </div>
 <div class="curve-table-container">
 <table class="dataframe curve-table chain-column pool-column">
+  <!-- фиксируем ширины 1-й и 2-й колонок -->
+  <colgroup>
+    <col style="width:40px">   <!-- Chain -->
+    <col style="width:340px">  <!-- Market -->
+    <!-- остальные колонки свободные -->
+    <col> <col> <col> <col>
+  </colgroup>
   <thead>
     <tr style="text-align: left;">
       <th>Chain</th>
