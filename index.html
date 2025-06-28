@@ -1,200 +1,472 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<!-- 100 % «антикеш» для браузера -->
+<meta http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma"        content="no-cache">
+<meta http-equiv="Expires"       content="0">
 <title>Curve High Yield Pools</title>
+    
 <style>
-body { font-family: -apple-system, BlinkMacSystemFont, Arial; margin: 0; padding: 20px; background: #fff; }
-.content-wrapper { max-width: 900px; margin: 0 auto; }
-.header-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-.header-left { display: flex; align-items: center; gap: 20px; }
-.logo { height: 60px; }
-.title { font-size: 36px; font-weight: bold; color: #1F1E1B; margin: 0; }
-.date { font-size: 20px; color: #6c757d; }
-.disclaimer { font-size: 19px; color: #999; text-align: right; max-width: 420px; }
-.curve-table { border-collapse: collapse; width: 100%; font-size: 14px; }
-.curve-table th, .curve-table td { border: 1px solid #e0e0e0; padding: 8px 12px; vertical-align: middle; }
-.curve-table th { background-color: #DEDBD8; font-weight: bold; }
-.curve-table tbody tr:hover { background-color: #EEECEB; cursor: pointer; }
-.curve-table td:nth-child(n+3) { text-align: right; font-weight: bold; font-size: 16px; }
-.network-cell { display: flex; align-items: center; gap: 8px; }
-.network-icon { width: 24px; height: 24px; }
-.pool-content { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.token-pill-pool { background-color: #EEECEB; padding: 0 10px; height: 32px; line-height: 32px; border-radius: 99px; display: inline-flex; align-items: center; gap: 4px; }
-.token-icon { width: 24px; height: 24px; border-radius: 50%; }
-.apr-tooltip { position: relative; cursor: help; text-decoration: underline dotted #999; }
-.tooltiptext { visibility: hidden; position: absolute; z-index: 1; bottom: 125%; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 5px 10px; border-radius: 6px; white-space: nowrap; font-size: 14px; }
-.apr-tooltip:hover .tooltiptext { visibility: visible; }
+body {
+    margin: 0;
+    padding: 20px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+}
+
+.content-wrapper {
+    width: 100%;
+    max-width: 900px;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    gap: 20px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    height: 60px;
+    width: auto;
+    flex-shrink: 0;
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #1F1E1B;
+    margin: 0;
+    line-height: 1.2;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.date {
+    font-size: 20px;  /* Увеличенный размер шрифта даты */
+    color: #6c757d;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.disclaimer {
+    font-size: 19px;  /* Увеличенный размер шрифта disclaimer */
+    color: #999;
+    text-align: right;
+    max-width: 420px;
+    line-height: 1.4;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.curve-table-container {
+    position: relative !important;
+    width: 100% !important;
+    overflow-x: visible !important;
+    margin-bottom: 1rem !important;
+}
+
+.curve-table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    vertical-align: middle;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    table-layout: fixed !important;
+    font-size: 14px;
+}
+
+.curve-table .network-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 100%;
+}
+
+.curve-table .network-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.curve-table .pool-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.curve-table .token-pill-pool {
+    background-color: #EEECEB;
+}
+
+.curve-table .token-pill-borrow {
+    background-color: #BBEDC0;
+}
+
+.token-pill-pool, .token-pill-borrow {
+    font-weight: bold !important;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 4px;
+    width: fit-content;
+    height: 32px;
+    line-height: 32px;
+    white-space: nowrap;
+    text-decoration: none !important;
+    padding: 0 10px;
+    border-radius: 99999px;
+}
+
+.curve-table tbody tr:hover .token-pill-pool {
+    background-color: #d4d1ce !important;
+}
+
+.curve-table tbody tr:hover .token-pill-borrow {
+    background-color: #93ca99 !important;
+}
+  
+.curve-table tbody tr:hover {
+    background-color: #EEECEB;
+    cursor: pointer;
+}
+
+.curve-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+  
+.curve-table .token-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.curve-table th,
+.curve-table td {
+    text-align: left;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    vertical-align: middle;
+}
+
+thead {
+    background-color: #DEDBD8 !important;
+    text-align: left;
+    font-weight: bold !important;
+}
+
+th {
+    background-color: #DEDBD8 !important;
+    font-weight: bold;
+}
+
+.curve-table tr th:last-child {
+    text-align: right !important;
+}
+
+.curve-table tr td:first-child,
+.curve-table tr th:first-child {
+    font-weight: bold;
+    width: 50 !important;
+    max-width: 50 !important;
+    min-width: 50 !important;
+
+    /* убавляем внутренние отступы */
+    padding: 4px 4px !important;
+    text-align: center !important;
+}
+
+.curve-table tr td:nth-child(2),
+.curve-table tr th:nth-child(2) {
+    width: 420px !important;
+    max-width: 420px !important;
+    min-width: 420px !important;
+}
+
+.curve-table tr td:nth-child(3),
+.curve-table tr td:nth-child(4),
+.curve-table tr td:nth-child(5),
+.curve-table tr td:nth-child(6) {
+    text-align: right !important;
+    font-weight: bold;
+    font-size: 16px;  /* Увеличенный размер шрифта */
+}
+
+.curve-table tr td:last-child {
+    font-weight: bold;
+    text-align: right !important;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Tooltip styles */
+.apr-tooltip {
+    position: relative;
+    cursor: help;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: #999;
+}
+
+.apr-tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 8px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    width: 200px;
+    font-size: 12px;
+    font-weight: normal;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.apr-tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 0.95;
+}
+
+.apr-tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
 </style>
 </head>
 <body>
 <div class="content-wrapper">
 <div class="header-container">
     <div class="header-left">
-        <img class="logo" src="https://res.cloudinary.com/do5yfqsqr/image/upload/v1732122973/curve-logo_nhrvor.png" alt="Curve">
-        <div>
-            <h1 class="title">Curve High Yield Pools</h1>
-            <p class="date">June 28 2025 16:23 UTC</p>
+        <img src="https://www.curve.finance/_next/static/media/curve-logo.f83f84d4.png" alt="Curve Logo" class="logo">
+        <div class="header-text">
+            <h1 class="title">Top Yields</h1>
+            <p class="date">June 28 2025, 16:31</p>
         </div>
     </div>
-    <div class="disclaimer">*APY+10k = estimated APY after depositing additional $10,000</div>
+    <div class="disclaimer">
+        This yield summary is not investment advice. Anyone can create pools on Curve - permissionless protocol. Always DYOR.
+    </div>
 </div>
-<table class="curve-table">
-<thead>
-<tr>
-    <th style="width: 50px; text-align: center;">#</th>
-    <th style="width: 420px;">Pool</th>
-    <th>TVL</th>
-    <th>Gauge %</th>
-    <th>Combined APR</th>
-    <th>APY+10k</th>
-</tr>
-</thead>
-<tbody>
-<tr onclick="window.open('https://curve.finance/dex/#/fraxtal/pools/factory-twocrypto-44/deposit')">
-    <td style="text-align: center; font-weight: bold;">1</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-fraxtal/0x6e58089d8e8f664823d26454f49a5a0f2ff697fe.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>SQUID</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-fraxtal/0x368ec3d7c755abea7d48b0c006d282a1aba2f898.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>SQUILL</span></div></div></td>
-    <td>$12k</td>
-    <td>99.8%</td>
-    <td><span class="apr-tooltip">237.6%<span class="tooltiptext">Base vAPY: 20.5%<br>CRV tAPR: 217.1%</span></span></td>
-    <td>127.7%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-stable-ng-418/deposit')">
-    <td style="text-align: center; font-weight: bold;">2</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>USDC</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xdac17f958d2ee523a2206206994597c13d831ec7.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>USDT</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xc425c0877c7b0f8179cdbd636b2efe3204b24bc4.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>SPANK</span></div></div></td>
-    <td>$4k</td>
-    <td>100.0%</td>
-    <td><span class="apr-tooltip">281.8%<span class="tooltiptext">Base vAPY: 281.8%<br></span></span></td>
-    <td>81.9%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-twocrypto-178/deposit')">
-    <td style="text-align: center; font-weight: bold;">3</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>WETH</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x323c03c48660fe31186fa82c289b0766d331ce21.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>OPEN</span></div></div></td>
-    <td>$112k</td>
-    <td>100.0%</td>
-    <td><span class="apr-tooltip">80.0%<span class="tooltiptext">Base vAPY: 1.0%<br>Rewards tAPR: 79.0%<br></span></span></td>
-    <td>73.5%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/7/deposit')">
-    <td style="text-align: center; font-weight: bold;">4</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x8e595470ed749b85c6f7669de83eae304c2ec68f.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>iDAI</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x76eb2fe28b36b3ee97f3adae0c69606eedb2a37c.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>iUSDC</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x48759f220ed983db51fa7a8c0d2aab8f3ce4166a.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>iUSDT</span></div></div></td>
-    <td>$5.6M</td>
-    <td>54.3%</td>
-    <td><span class="apr-tooltip">68.1%<span class="tooltiptext">Base vAPY: 68.1%<br></span></span></td>
-    <td>67.9%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-twocrypto-119/deposit')">
-    <td style="text-align: center; font-weight: bold;">5</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>WETH</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x419905009e4656fdc02418c7df35b1e61ed5f726.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>RSUP</span></div></div></td>
-    <td>$2.3M</td>
-    <td>96.2%</td>
-    <td><span class="apr-tooltip">62.5%<span class="tooltiptext">Base vAPY: 2.3%<br>CRV tAPR: 60.2%</span></span></td>
-    <td>62.2%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/fraxtal/pools/factory-twocrypto-21/deposit')">
-    <td style="text-align: center; font-weight: bold;">6</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-fraxtal/0xfc00000000000000000000000000000000000006.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>frxETH</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-fraxtal/0x6e58089d8e8f664823d26454f49a5a0f2ff697fe.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>SQUID</span></div></div></td>
-    <td>$119k</td>
-    <td>99.9%</td>
-    <td><span class="apr-tooltip">59.8%<span class="tooltiptext">Base vAPY: 34.9%<br>Rewards tAPR: 1.6%<br>CRV tAPR: 23.3%</span></span></td>
-    <td>55.1%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/fraxtal/pools/factory-twocrypto-33/deposit')">
-    <td style="text-align: center; font-weight: bold;">7</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-fraxtal/0x6efb84bda519726fa1c65558e520b92b51712101.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>IQ</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-fraxtal/0xfc00000000000000000000000000000000000001.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>frxUSD</span></div></div></td>
-    <td>$980k</td>
-    <td>2.1%</td>
-    <td><span class="apr-tooltip">73.8%<span class="tooltiptext">Base vAPY: 0.7%<br>Rewards tAPR: 73.1%<br></span></span></td>
-    <td>49.7%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-stable-ng-212/deposit')">
-    <td style="text-align: center; font-weight: bold;">8</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xf939e0a03fb07f59a73314e73794be0e57ac1b4e.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>crvUSD</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x677ddbd918637e5f2c79e164d402454de7da8619.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>VUSD</span></div></div></td>
-    <td>$185k</td>
-    <td>100.0%</td>
-    <td><span class="apr-tooltip">49.5%<span class="tooltiptext">Base vAPY: 2.1%<br>CRV tAPR: 47.4%</span></span></td>
-    <td>46.9%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-twocrypto-111/deposit')">
-    <td style="text-align: center; font-weight: bold;">9</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xb90b2a35c65dbc466b04240097ca756ad2005295.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>BOBO</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>WETH</span></div></div></td>
-    <td>$54k</td>
-    <td>100.0%</td>
-    <td><span class="apr-tooltip">50.6%<span class="tooltiptext">Base vAPY: 4.0%<br>CRV tAPR: 46.7%</span></span></td>
-    <td>42.8%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-twocrypto-177/deposit')">
-    <td style="text-align: center; font-weight: bold;">10</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>WETH</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x7ebab7190d3d574ce82d29f2fa1422f18e29969c.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>SQUILL</span></div></div></td>
-    <td>$39k</td>
-    <td>100.0%</td>
-    <td><span class="apr-tooltip">52.4%<span class="tooltiptext">Base vAPY: 1.8%<br>Rewards tAPR: 50.6%<br></span></span></td>
-    <td>41.8%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/base/pools/factory-stable-ng-270/deposit')">
-    <td style="text-align: center; font-weight: bold;">11</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-base/0x64fcc3a02eeeba05ef701b7eed066c6ebd5d4e51.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>SPECTRA</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-base/0x8e7801bac71e92993f6924e7d767d7dbc5fce0ae.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>sdSPECTRA</span></div></div></td>
-    <td>$9k</td>
-    <td>100.0%</td>
-    <td><span class="apr-tooltip">79.3%<span class="tooltiptext">Base vAPY: 2.3%<br>CRV tAPR: 77.0%</span></span></td>
-    <td>38.4%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-crypto-236/deposit')">
-    <td style="text-align: center; font-weight: bold;">12</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x823e1b82ce1dc147bbdb25a203f046afab1ce918.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>COIL</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x3175df0976dfa876431c2e9ee6bc45b65d3473cc.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>FRAXBP</span></div></div></td>
-    <td>$752k</td>
-    <td>99.9%</td>
-    <td><span class="apr-tooltip">37.1%<span class="tooltiptext">Base vAPY: 0.2%<br>CRV tAPR: 37.0%</span></span></td>
-    <td>36.6%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-crypto-39/deposit')">
-    <td style="text-align: center; font-weight: bold;">13</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>ETH</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x1ceb5cb57c4d4e2b2433641b95dd330a33185a44.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>KP3R</span></div></div></td>
-    <td>$363k</td>
-    <td>99.8%</td>
-    <td><span class="apr-tooltip">35.4%<span class="tooltiptext">Base vAPY: 0.6%<br>CRV tAPR: 34.8%</span></span></td>
-    <td>34.4%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-crypto-96/deposit')">
-    <td style="text-align: center; font-weight: bold;">14</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xdbdb4d16eda451d0503b854cf79d55697f90c8df.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>ALCX</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x3175df0976dfa876431c2e9ee6bc45b65d3473cc.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>FRAXBP</span></div></div></td>
-    <td>$483k</td>
-    <td>99.9%</td>
-    <td><span class="apr-tooltip">27.2%<span class="tooltiptext">Base vAPY: 0.7%<br>CRV tAPR: 26.5%</span></span></td>
-    <td>26.6%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/optimism/pools/factory-tricrypto-1/deposit')">
-    <td style="text-align: center; font-weight: bold;">15</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-optimism/0xc52d7f23a2e460248db6ee192cb23dd12bddcbf6.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>crvUSD</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-optimism/0x4200000000000000000000000000000000000042.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>OP</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-optimism/0x0994206dfe8de6ec6920ff4d779b0d950605fb53.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>CRV</span></div></div></td>
-    <td>$551k</td>
-    <td>96.9%</td>
-    <td><span class="apr-tooltip">26.8%<span class="tooltiptext">Base vAPY: 2.1%<br>Rewards tAPR: 10.6%<br>CRV tAPR: 14.1%</span></span></td>
-    <td>26.3%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-tricrypto-18/deposit')">
-    <td style="text-align: center; font-weight: bold;">16</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x865377367054516e17014ccded1e7d814edc9ce4.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>DOLA</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xad038eb671c44b853887a7e32528fab35dc5d710.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>DBR</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x41d5d79431a913c4ae7d69a668ecdfe5ff9dfb68.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>INV</span></div></div></td>
-    <td>$1.3M</td>
-    <td>100.0%</td>
-    <td><span class="apr-tooltip">25.6%<span class="tooltiptext">Base vAPY: 1.2%<br>CRV tAPR: 24.4%</span></span></td>
-    <td>25.4%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/arbitrum/pools/factory-stable-ng-172/deposit')">
-    <td style="text-align: center; font-weight: bold;">17</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-arbitrum/0xcb8fa9a76b8e203d8c3797bf438d8fb81ea3326a.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>alUSD</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-arbitrum/0xaf88d065e77c8cc2239327c5edb3a432268e5831.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>USDC</span></div></div></td>
-    <td>$296k</td>
-    <td>100.0%</td>
-    <td><span class="apr-tooltip">24.9%<span class="tooltiptext">Base vAPY: 2.5%<br>CRV tAPR: 22.4%</span></span></td>
-    <td>24.1%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-stable-ng-463/deposit')">
-    <td style="text-align: center; font-weight: bold;">18</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x85e30b8b263bc64d94b827ed450f2edfee8579da.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>USDaf</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x4f493b7de8aac7d55f71853688b1f7c8f0243c85.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>crv2pool</span></div></div></td>
-    <td>$439k</td>
-    <td>99.7%</td>
-    <td><span class="apr-tooltip">22.5%<span class="tooltiptext">Base vAPY: 1.9%<br>Rewards tAPR: 20.6%<br>CRV tAPR: 0.0%</span></span></td>
-    <td>22.0%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-twocrypto-101/deposit')">
-    <td style="text-align: center; font-weight: bold;">19</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>WETH</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x41d5d79431a913c4ae7d69a668ecdfe5ff9dfb68.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>INV</span></div></div></td>
-    <td>$762k</td>
-    <td>100.0%</td>
-    <td><span class="apr-tooltip">21.6%<span class="tooltiptext">Base vAPY: 3.2%<br>CRV tAPR: 18.3%</span></span></td>
-    <td>21.3%</td>
-</tr><tr onclick="window.open('https://curve.finance/dex/#/arbitrum/pools/factory-tricrypto-17/deposit')">
-    <td style="text-align: center; font-weight: bold;">20</td>
-    <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-arbitrum/0x498bf2b1e120fed3ad3d42ea2165e9b73f99c1e5.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>crvUSD</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-arbitrum/0x82af49447d8a07e3bd95bd0d56f35241523fbab1.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>WETH</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-arbitrum/0xdc8b6b6beab4d5034ae91b7a1cf7d05a41f0d239.png" class="token-icon" onerror="this.src='https://curve.finance/images/default-crypto.png';"><span>GMAC</span></div></div></td>
-    <td>$22k</td>
-    <td>96.8%</td>
-    <td><span class="apr-tooltip">31.1%<span class="tooltiptext">Base vAPY: 2.7%<br>CRV tAPR: 28.4%</span></span></td>
-    <td>21.0%</td>
-</tr>
-</tbody>
+<div class="curve-table-container">
+<table class="dataframe curve-table chain-column pool-column">
+  <!-- фиксируем ширины 1-й и 2-й колонок -->
+  <colgroup>
+    <col style="width:50px">   <!-- Chain -->
+    <col style="width:420px">  <!-- Market -->
+    <!-- остальные колонки свободные -->
+    <col> <col> <col> <col>
+  </colgroup>
+  <thead>
+    <tr style="text-align: left;">
+      <th>Chain</th>
+      <th>Market</th>
+      <th>TVL</th>
+      <th>Stake %</th>
+      <th>Combined APR</th>
+      <th>APR+10k deposit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr onclick="window.open('https://curve.finance/dex/#/fraxtal/pools/factory-twocrypto-44/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Fraxtal" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/fraxtal.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-fraxtal/0x6e58089d8e8f664823d26454f49a5a0f2ff697fe.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>SQUID</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-fraxtal/0x368ec3d7c755abea7d48b0c006d282a1aba2f898.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>SQUILL</span></div></div></td>
+      <td>$12k</td>
+      <td>99.8%</td>
+      <td><span class="apr-tooltip">238.2%<span class="tooltiptext">Base vAPY: 20.5%<br>CRV tAPR: 217.7%</span></span></td>
+      <td>128.0%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-twocrypto-178/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Ethereum" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/ethereum.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>WETH</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x323c03c48660fe31186fa82c289b0766d331ce21.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>OPEN</span></div></div></td>
+      <td>$112k</td>
+      <td>100.0%</td>
+      <td><span class="apr-tooltip">80.2%<span class="tooltiptext">Base vAPY: 1.1%<br>Rewards tAPR: 79.0%<br></span></span></td>
+      <td>73.6%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/ib/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Ethereum" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/ethereum.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x8e595470ed749b85c6f7669de83eae304c2ec68f.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>iDAI</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x76eb2fe28b36b3ee97f3adae0c69606eedb2a37c.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>iUSDC</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x48759f220ed983db51fa7a8c0d2aab8f3ce4166a.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>iUSDT</span></div></div></td>
+      <td>$5.6M</td>
+      <td>54.3%</td>
+      <td><span class="apr-tooltip">65.4%<span class="tooltiptext">Base vAPY: 65.4%<br></span></span></td>
+      <td>65.2%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-twocrypto-119/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Ethereum" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/ethereum.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>WETH</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x419905009e4656fdc02418c7df35b1e61ed5f726.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>RSUP</span></div></div></td>
+      <td>$2.3M</td>
+      <td>96.2%</td>
+      <td><span class="apr-tooltip">62.4%<span class="tooltiptext">Base vAPY: 2.4%<br>CRV tAPR: 60.1%</span></span></td>
+      <td>62.2%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/fraxtal/pools/factory-twocrypto-33/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Fraxtal" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/fraxtal.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-fraxtal/0x6efb84bda519726fa1c65558e520b92b51712101.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>IQ</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-fraxtal/0xfc00000000000000000000000000000000000001.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>frxUSD</span></div></div></td>
+      <td>$980k</td>
+      <td>2.1%</td>
+      <td><span class="apr-tooltip">73.7%<span class="tooltiptext">Base vAPY: 0.7%<br>Rewards tAPR: 73.0%<br></span></span></td>
+      <td>49.7%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-stable-ng-212/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Ethereum" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/ethereum.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-borrow"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xf939e0a03fb07f59a73314e73794be0e57ac1b4e.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>crvUSD</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x677ddbd918637e5f2c79e164d402454de7da8619.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>VUSD</span></div></div></td>
+      <td>$185k</td>
+      <td>100.0%</td>
+      <td><span class="apr-tooltip">49.7%<span class="tooltiptext">Base vAPY: 2.2%<br>CRV tAPR: 47.5%</span></span></td>
+      <td>47.2%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-twocrypto-111/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Ethereum" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/ethereum.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xb90b2a35c65dbc466b04240097ca756ad2005295.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>BOBO</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>WETH</span></div></div></td>
+      <td>$54k</td>
+      <td>100.0%</td>
+      <td><span class="apr-tooltip">50.9%<span class="tooltiptext">Base vAPY: 4.1%<br>CRV tAPR: 46.8%</span></span></td>
+      <td>43.0%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-twocrypto-177/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Ethereum" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/ethereum.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>WETH</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x7ebab7190d3d574ce82d29f2fa1422f18e29969c.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>SQUILL</span></div></div></td>
+      <td>$39k</td>
+      <td>100.0%</td>
+      <td><span class="apr-tooltip">52.4%<span class="tooltiptext">Base vAPY: 1.9%<br>Rewards tAPR: 50.6%<br></span></span></td>
+      <td>41.8%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/base/pools/factory-stable-ng-270/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Base" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/base.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-base/0x64fcc3a02eeeba05ef701b7eed066c6ebd5d4e51.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>SPECTRA</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-base/0x8e7801bac71e92993f6924e7d767d7dbc5fce0ae.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>sdSPECTRA</span></div></div></td>
+      <td>$9k</td>
+      <td>100.0%</td>
+      <td><span class="apr-tooltip">79.5%<span class="tooltiptext">Base vAPY: 2.3%<br>CRV tAPR: 77.2%</span></span></td>
+      <td>38.5%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-crypto-236/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Ethereum" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/ethereum.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x823e1b82ce1dc147bbdb25a203f046afab1ce918.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>COIL</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x3175df0976dfa876431c2e9ee6bc45b65d3473cc.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>FRAXBP</span></div></div></td>
+      <td>$752k</td>
+      <td>99.9%</td>
+      <td><span class="apr-tooltip">37.2%<span class="tooltiptext">Base vAPY: 0.2%<br>CRV tAPR: 37.1%</span></span></td>
+      <td>36.7%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-crypto-39/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Ethereum" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/ethereum.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>ETH</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x1ceb5cb57c4d4e2b2433641b95dd330a33185a44.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>KP3R</span></div></div></td>
+      <td>$363k</td>
+      <td>99.8%</td>
+      <td><span class="apr-tooltip">35.4%<span class="tooltiptext">Base vAPY: 0.5%<br>CRV tAPR: 34.9%</span></span></td>
+      <td>34.4%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/fraxtal/pools/factory-twocrypto-21/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Fraxtal" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/fraxtal.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-fraxtal/0xfc00000000000000000000000000000000000006.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>frxETH</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-fraxtal/0x6e58089d8e8f664823d26454f49a5a0f2ff697fe.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>SQUID</span></div></div></td>
+      <td>$119k</td>
+      <td>99.9%</td>
+      <td><span class="apr-tooltip">31.9%<span class="tooltiptext">Base vAPY: 7.0%<br>Rewards tAPR: 1.6%<br>CRV tAPR: 23.4%</span></span></td>
+      <td>29.5%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-crypto-96/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Ethereum" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/ethereum.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xdbdb4d16eda451d0503b854cf79d55697f90c8df.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>ALCX</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x3175df0976dfa876431c2e9ee6bc45b65d3473cc.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>FRAXBP</span></div></div></td>
+      <td>$483k</td>
+      <td>99.9%</td>
+      <td><span class="apr-tooltip">27.4%<span class="tooltiptext">Base vAPY: 0.6%<br>CRV tAPR: 26.7%</span></span></td>
+      <td>26.8%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/optimism/pools/factory-tricrypto-1/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Optimism" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/optimism.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-borrow"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-optimism/0xc52d7f23a2e460248db6ee192cb23dd12bddcbf6.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>crvUSD</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-optimism/0x4200000000000000000000000000000000000042.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>OP</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-optimism/0x0994206dfe8de6ec6920ff4d779b0d950605fb53.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>CRV</span></div></div></td>
+      <td>$551k</td>
+      <td>96.9%</td>
+      <td><span class="apr-tooltip">26.8%<span class="tooltiptext">Base vAPY: 2.1%<br>Rewards tAPR: 10.6%<br>CRV tAPR: 14.1%</span></span></td>
+      <td>26.4%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-tricrypto-18/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Ethereum" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/ethereum.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x865377367054516e17014ccded1e7d814edc9ce4.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>DOLA</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xad038eb671c44b853887a7e32528fab35dc5d710.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>DBR</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x41d5d79431a913c4ae7d69a668ecdfe5ff9dfb68.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>INV</span></div></div></td>
+      <td>$1.3M</td>
+      <td>100.0%</td>
+      <td><span class="apr-tooltip">25.7%<span class="tooltiptext">Base vAPY: 1.2%<br>CRV tAPR: 24.4%</span></span></td>
+      <td>25.5%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/arbitrum/pools/factory-tricrypto-27/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Arbitrum" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/arbitrum.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-arbitrum/0x11cdb42b0eb46d95f990bedd4695a6e3fa034978.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>CRV</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-arbitrum/0x62d5a59e0d67c0381aad53b201b4a1b8dcd2c833.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>vsdCRV</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-arbitrum/0x75289388d50364c3013583d97bd70ced0e183e32.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>asdCRV</span></div></div></td>
+      <td>$924k</td>
+      <td>99.5%</td>
+      <td><span class="apr-tooltip">24.5%<span class="tooltiptext">Base vAPY: 11.7%<br>CRV tAPR: 12.7%</span></span></td>
+      <td>24.2%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/polygon/pools/factory-tricrypto-6/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Polygon" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/polygon.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-polygon/0x172370d5cd63279efa6d502dab29171933a610af.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>CRV</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-polygon/0x62d5a59e0d67c0381aad53b201b4a1b8dcd2c833.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>vsdCRV</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-polygon/0x75289388d50364c3013583d97bd70ced0e183e32.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>asdCRV</span></div></div></td>
+      <td>$89k</td>
+      <td>100.0%</td>
+      <td><span class="apr-tooltip">26.9%<span class="tooltiptext">Base vAPY: 9.9%<br>CRV tAPR: 17.0%</span></span></td>
+      <td>24.2%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/arbitrum/pools/factory-stable-ng-172/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Arbitrum" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/arbitrum.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-arbitrum/0xcb8fa9a76b8e203d8c3797bf438d8fb81ea3326a.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>alUSD</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-arbitrum/0xaf88d065e77c8cc2239327c5edb3a432268e5831.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>USDC</span></div></div></td>
+      <td>$296k</td>
+      <td>100.0%</td>
+      <td><span class="apr-tooltip">24.8%<span class="tooltiptext">Base vAPY: 2.4%<br>CRV tAPR: 22.4%</span></span></td>
+      <td>24.0%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-stable-ng-463/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Ethereum" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/ethereum.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x85e30b8b263bc64d94b827ed450f2edfee8579da.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>USDaf</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x4f493b7de8aac7d55f71853688b1f7c8f0243c85.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>crv2pool</span></div></div></td>
+      <td>$439k</td>
+      <td>99.7%</td>
+      <td><span class="apr-tooltip">22.3%<span class="tooltiptext">Base vAPY: 1.7%<br>Rewards tAPR: 20.6%<br>CRV tAPR: 0.0%</span></span></td>
+      <td>21.8%</td>
+    </tr>
+    <tr onclick="window.open('https://curve.finance/dex/#/ethereum/pools/factory-twocrypto-101/deposit', '_blank')" style="cursor: pointer;">
+      <td><div class="network-cell"><img title="Ethereum" src="https://raw.githubusercontent.com/curvefi/curve-assets/refs/heads/main/chains/ethereum.png" class="network-icon"></div></td>
+      <td><div class="pool-content"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>WETH</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets/0x41d5d79431a913c4ae7d69a668ecdfe5ff9dfb68.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>INV</span></div></div></td>
+      <td>$762k</td>
+      <td>100.0%</td>
+      <td><span class="apr-tooltip">21.7%<span class="tooltiptext">Base vAPY: 3.3%<br>CRV tAPR: 18.4%</span></span></td>
+      <td>21.4%</td>
+    </tr>
+  </tbody>
 </table>
+</div>
 </div>
 </body>
 </html>
