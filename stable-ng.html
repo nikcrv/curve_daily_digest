@@ -125,7 +125,7 @@ body {
     background-color: #BBEDC0;
 }
 
-.token-pill-pool, .token-pill-borrow {
+.token-pill-pool, .token-pill-borrow, .token-pill-warning {
     font-weight: bold !important;
     display: inline-flex;
     flex: 0 0 auto;
@@ -140,12 +140,21 @@ body {
     border-radius: 99999px;
 }
 
+.curve-table .token-pill-warning {
+    background-color: #FFE5CC;
+    color: #D84315;
+}
+
 .curve-table tbody tr:hover .token-pill-pool {
     background-color: #d4d1ce !important;
 }
 
 .curve-table tbody tr:hover .token-pill-borrow {
     background-color: #93ca99 !important;
+}
+
+.curve-table tbody tr:hover .token-pill-warning {
+    background-color: #FFCCB3 !important;
 }
   
 .curve-table tbody tr:hover {
@@ -277,7 +286,7 @@ a {
         <img src="https://www.curve.finance/_next/static/media/curve-logo.f83f84d4.png" alt="Curve Logo" class="logo">
         <div class="header-text">
             <h1 class="title">Top Yields <span style="color: #999; font-size: 0.4em; font-weight: normal; vertical-align: top;">(StableNG)</span></h1>
-            <p class="date">June 28 2025, 16:39</p>
+            <p class="date">June 28 2025, 16:42</p>
         </div>
     </div>
     <div class="disclaimer">
