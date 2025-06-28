@@ -125,7 +125,7 @@ body {
     background-color: #BBEDC0;
 }
 
-.token-pill-pool, .token-pill-borrow, .token-pill-warning {
+.token-pill-pool, .token-pill-borrow, .token-pill-warning, .token-pill-anomaly {
     font-weight: bold !important;
     display: inline-flex;
     flex: 0 0 auto;
@@ -147,6 +147,13 @@ body {
     padding: 0 4px !important;
 }
 
+.curve-table .token-pill-anomaly {
+    background-color: #FFD6D6;
+    color: #C62828;
+    border-radius: 0 !important;
+    padding: 0 4px !important;
+}
+
 .curve-table tbody tr:hover .token-pill-pool {
     background-color: #d4d1ce !important;
 }
@@ -157,6 +164,10 @@ body {
 
 .curve-table tbody tr:hover .token-pill-warning {
     background-color: #FFCCB3 !important;
+}
+
+.curve-table tbody tr:hover .token-pill-anomaly {
+    background-color: #FFBDBD !important;
 }
   
 .curve-table tbody tr:hover {
@@ -289,7 +300,7 @@ a {
         <img src="https://www.curve.finance/_next/static/media/curve-logo.f83f84d4.png" alt="Curve Logo" class="logo">
         <div class="header-text">
             <h1 class="title">Top Yields <span style="color: #999; font-size: 0.4em; font-weight: normal; vertical-align: top;">(StableNG)</span></h1>
-            <p class="date">June 28 2025, 17:06</p>
+            <p class="date">June 28 2025, 17:08</p>
         </div>
     </div>
     <div class="disclaimer">
@@ -431,7 +442,7 @@ a {
       <td><div class="pool-content">
         <div style="display: flex; gap: 8px; align-items: center;"><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-sonic/0xd3dce716f3ef535c5ff8d041c1a41c3bd89b97ae.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>scUSD</span></div><div class="token-pill-pool"><img src="https://cdn.jsdelivr.net/gh/curvefi/curve-assets/images/assets-sonic/0x80eede496655fb9047dd39d9f418d5483ed600df.png" class="token-icon" onerror="this.onerror=null;this.src='https://www.curve.finance/images/default-crypto.png';"><span>frxUSD</span></div></div></div></td>
       <td>$3.3M</td>
-      <td>51.4%</td>
+      <td>52.3%</td>
       <td><span class="apr-tooltip">13.9%<span class="tooltiptext">Base vAPY: 0.0%<br>CRV tAPR: 13.9%</span></span></td>
       <td>13.9%</td>
     </tr>
